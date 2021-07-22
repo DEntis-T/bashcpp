@@ -27,23 +27,37 @@ rem    DEntisT
 
 set null=echo.
 
-set detutils_hash = (
+rem function.for.md5.hash
+
+set detutils_hash_md5 = (
+	rem debug
 	echo [bash-detutils]: (debug) - Hashing current value: %string%
+	rem vars
 	set hash=
 	set strvar=%string%
+	rem write.tempfile
 	echo %strvar%> detutils_tempfile.c
+	rem get.filecontent.length
 	for %%? in (detutils_tempfile.c) do ( set /a strlength=%%~z? - 2 )
 	set utils_length=%strlength%
+	rem debug
 	echo [bash-detutils]: (debug) - String value length: %utils_length%
 	set pass=%string%
+	rem call.md5.hash
 	for /f %%a in ('echo.^|md5.exe -d%pass% 2^>nul') do set "hash=%%a"
+	rem res_hash.var
 	set res_hash=%utils_length%%hash%%utils_length%%hash%%utils_length%
+	rem debug
 	echo [bash-detutils]: (debug) - Successfully hashed %string% into %res_hash%.
+	rem remove.tempfile
 	del detutils_tempfile.c
+	rem pause
 	pause
 )
 
 set detutils_display_hash = (
+	rem debug
 	echo [bash-detutils]: (debug) - Hash result: %res_hash%
+	rem pause
 	pause
 )
